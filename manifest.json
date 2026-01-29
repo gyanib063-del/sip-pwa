@@ -1,12 +1,10 @@
 {
   "name": "SIP Calculator",
   "short_name": "SIP App",
-  "start_url": "/sip-pwa/index.html",
-  "scope": "/sip-pwa/",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#111827",
+  "background_color": "#0f172a",
   "theme_color": "#22c55e",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
@@ -20,5 +18,3 @@
     }
   ]
 }
-
-
