@@ -1,5 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIP Calculator 📊</title>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c55e">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    color:#fff;
+}
+.container{
+    background:#111827;
+    padding:22px;
+    border-radius:16px;
+    width:100%;
+    max-width:360px;
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
+}
+h2{text-align:center;margin-bottom:15px;}
+label{font-size:14px;}
+input{
+    width:100%;
+    padding:10px;
+    margin:6px 0 12px;
+    border-radius:10px;
+    border:none;
+}
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#22c55e;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.result{
+    margin-top:15px;
+    background:#1f2933;
+    padding:15px;
+    border-radius:12px;
+}
+span{color:#22c55e;font-weight:bold;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>📈 SIP Calculator</h2>
+
+<label>💸 Monthly SIP (₹)</label>
+<input type="number" id="sip" placeholder="5000">
+
+<label>📊 Return % (p.a)</label>
+<input type="number" id="rate" placeholder="12">
+
+<label>⏳ Years</label>
+<input type="number" id="years" placeholder="15">
+
+<button onclick="calc()">Calculate 🚀</button>
+
+<div class="result" id="out">
+<p>📥 Invested: <span>₹0</span></p>
+<p>💰 Returns: <span>₹0</span></p>
+<p>🎯 Final: <span>₹0</span></p>
+</div>
+</div>
+
+<script>
+function calc(){
+let P=+sip.value,r=+rate.value/100/12,y=+years.value*12;
+let invested=P*y;
+let value=P*((Math.pow(1+r,y)-1)/r)*(1+r);
+out.innerHTML=`
+<p>📥 Invested: <span>₹${invested.toFixed(0)}</span></p>
+<p>💰 Returns: <span>₹${(value-invested).toFixed(0)}</span></p>
+<p>🎯 Final: <span>₹${value.toFixed(0)}</spa
+
 
 
