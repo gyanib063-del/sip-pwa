@@ -2,92 +2,125 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SIP Calculator 📊</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#22c55e">
 
 <style>
 body{
-    margin:0;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg,#1e3c72,#2a5298);
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
+    height:100vh;
     color:#fff;
 }
 .container{
     background:#111827;
-    padding:22px;
-    border-radius:16px;
-    width:100%;
-    max-width:360px;
+    padding:25px;
+    border-radius:15px;
+    width:350px;
     box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
-h2{text-align:center;margin-bottom:15px;}
-label{font-size:14px;}
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+label{
+    font-size:14px;
+}
 input{
     width:100%;
-    padding:10px;
+    padding:8px;
     margin:6px 0 12px;
-    border-radius:10px;
+    border-radius:8px;
     border:none;
+    outline:none;
 }
 button{
     width:100%;
-    padding:12px;
+    padding:10px;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     background:#22c55e;
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
 }
+button:hover{
+    background:#16a34a;
+}
 .result{
     margin-top:15px;
     background:#1f2933;
     padding:15px;
-    border-radius:12px;
+    border-radius:10px;
 }
-span{color:#22c55e;font-weight:bold;}
+.result p{
+    margin:6px 0;
+    font-size:14px;
+}
+span{
+    color:#22c55e;
+    font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h2>📈 SIP Calculator</h2>
+    <h2>📈 SIP Calculator</h2>
 
-<label>💸 Monthly SIP (₹)</label>
-<input type="number" id="sip" placeholder="5000">
+    <label>💸 Monthly SIP Amount (₹)</label>
+    <input type="number" id="sip" placeholder="e.g. 5000">
 
-<label>📊 Return % (p.a)</label>
-<input type="number" id="rate" placeholder="12">
+    <label>📊 Expected Return (% p.a)</label>
+    <input type="number" id="rate" placeholder="e.g. 12">
 
-<label>⏳ Years</label>
-<input type="number" id="years" placeholder="15">
+    <label>⏳ Time Period (Years)</label>
+    <input type="number" id="years" placeholder="e.g. 15">
 
-<button onclick="calc()">Calculate 🚀</button>
+    <label>🚀 Step-Up SIP (% per year)</label>
+    <input type="number" id="stepup" placeholder="e.g. 10">
 
-<div class="result" id="out">
-<p>📥 Invested: <span>₹0</span></p>
-<p>💰 Returns: <span>₹0</span></p>
-<p>🎯 Final: <span>₹0</span></p>
-</div>
+    <button onclick="calculateSIP()">Calculate 🚀</button>
+
+    <div class="result" id="output">
+        <p>📥 Invested: <span>₹0</span></p>
+        <p>💰 Returns: <span>₹0</span></p>
+        <p>🎯 Final Value: <span>₹0</span></p>
+    </div>
 </div>
 
 <script>
-function calc(){
-let P=+sip.value,r=+rate.value/100/12,y=+years.value*12;
-let invested=P*y;
-let value=P*((Math.pow(1+r,y)-1)/r)*(1+r);
-out.innerHTML=`
-<p>📥 Invested: <span>₹${invested.toFixed(0)}</span></p>
-<p>💰 Returns: <span>₹${(value-invested).toFixed(0)}</span></p>
-<p>🎯 Final: <span>₹${value.toFixed(0)}</spa
+function calculateSIP(){
+    let P = Number(document.getElementById("sip").value);
+    let r = Number(document.getElementById("rate").value)/100/12;
+    let years = Number(document.getElementById("years").value);
+    let step = Number(document.getElementById("stepup").value)/100;
 
+    let months = years * 12;
+    let invested = 0;
+    let value = 0;
+    let monthlySIP = P;
 
+    for(let y=1;y<=years;y++){
+        for(let m=1;m<=12;m++){
+            invested += monthlySIP;
+            value = (value + monthlySIP) * (1+r);
+        }
+        monthlySIP += monthlySIP * step;
+    }
 
+    let returns = value - invested;
+
+    document.getElementById("output").innerHTML = `
+        <p>📥 Invested: <span>₹${invested.toFixed(0)}</span></p>
+        <p>💰 Returns: <span>₹${returns.toFixed(0)}</span></p>
+        <p>🎯 Final Value: <span>₹${value.toFixed(0)}</span></p>
+    `;
+}
+</script>
+
+</body>
+</html>
